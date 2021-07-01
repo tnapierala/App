@@ -17,7 +17,7 @@
                 </div>
                 <div class="card-footer">
                     <a href="{{route('ringtones.show',[$ringtone->id,$ringtone->slug])}}">Info and Download</a>
-                    
+                    <strong><a style="color:#0b7ad6" href="{{route('favourites.show',[$ringtone->id,$ringtone->slug])}}">Add to favorites</a></strong>
                 </div>
             </div>
             

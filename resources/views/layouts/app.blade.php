@@ -56,12 +56,21 @@
                             </li>
                         @endif
                         @if(Auth::check())
+                            @if(Auth::user()->role == 'admin')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('ringtones.index') }}">Manage Ringtones</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('photos.index') }}">Manage Photos</a>
                             </li>
+                            @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/') }}"> Ringtones</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/wallpapers') }}"> Wallpapers</a>
+                            </li>
+                            @endif
                         @endif
                         <!-- Authentication Links -->
                         @guest

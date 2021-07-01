@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(array('namespace'=>'Backend','middleware'=>'auth'),function(){
 	Route::resource('/ringtones','RingtoneController');
 	Route::resource('/photos','PhotoController');
-
+	Route::resource('/favourites', 'FavouriteController');
 
 });
 Route::group(array('namespace'=>'Frontend'),function(){
@@ -34,12 +34,6 @@ Route::group(array('namespace'=>'Frontend'),function(){
 	Route::post('download2/{id}','PhotoController@download1280x1024')->name('download2');
 	Route::post('download3/{id}','PhotoController@download316x255')->name('download3');
 	Route::post('download4/{id}','PhotoController@download118x95')->name('download4');
-
-
-
-
-
-
 });
 
 

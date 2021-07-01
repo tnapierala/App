@@ -4,6 +4,13 @@
 <div class="container">
     <div class="row ">
         <div class="col-md-8">
+            @if(Session::has('message'))
+                <div class="alert alert-success">{{Session::get('message')}}</div>
+            @endif
+            <h2>
+                Favourites
+            </h2>
+            <h2>Ringtones</h2>
             @foreach($ringtones as $ringtone)
             <div class="card design" style="margin-top: 50px;">
                 <div class="card-header">{{$ringtone->title}}</div>
@@ -20,7 +27,12 @@
                     @endif
                     @if(Auth::check())
                     <a href="{{route('ringtones.show',[$ringtone->id,$ringtone->slug])}}">Info and Download</a>
+                    @if(Auth::user()->role == 'normal')
+                    <strong><a style="color:#0b7ad6" href="{{route('favourites.show',[$ringtone->id,$ringtone->slug])}}">Add to favorites</a></strong>
+                    
                     @endif
+                    @endif
+                    
                 </div>
             </div>
             @endforeach
