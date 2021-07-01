@@ -15,8 +15,12 @@
                    </audio>
                 </div>
                 <div class="card-footer">
+                    @if(!Auth::check())
+                    <a href="{{route('login')}}">Info and Download</a>
+                    @endif
+                    @if(Auth::check())
                     <a href="{{route('ringtones.show',[$ringtone->id,$ringtone->slug])}}">Info and Download</a>
-                    
+                    @endif
                 </div>
             </div>
             @endforeach

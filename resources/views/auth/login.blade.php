@@ -19,6 +19,9 @@
     </p>
     </p>
     <p><input type="submit" value="Log in"></p>
+    <p class="registerProposal">
+      <a href="{{route('register')}}">Or register if you don't have account yet.</a>
+    </p>
   </form>
 </div>
 <style type="text/css">
@@ -53,6 +56,16 @@ body {
   border-bottom-color: #28d;
 }
 
+.registerProposal {
+  text-align: center;
+  font-size: 14px;
+}
+.registerProposal a {
+  color: #b9b9b9;
+}
+.registerProposal a:hover {
+  color: #555;
+}
 .login-header {
   background: #28d;
   padding: 20px;
