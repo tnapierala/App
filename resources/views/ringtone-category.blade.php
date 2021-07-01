@@ -4,6 +4,9 @@
 <div class="container">
     <div class="row ">
         <div class="col-md-8">
+            @if(Session::has('message'))
+                <div class="alert alert-success">{{Session::get('message')}}</div>
+            @endif
             @if(count($ringtones)>0)
             @foreach($ringtones as $ringtone)
             <div class="card design" style="margin-top: 50px;">
@@ -16,8 +19,17 @@
                    </audio>
                 </div>
                 <div class="card-footer">
+                    @if(!Auth::check())
+                    <a href="{{route('login')}}">Info and Download</a>
+                    @endif
+                    @if(Auth::check())
                     <a href="{{route('ringtones.show',[$ringtone->id,$ringtone->slug])}}">Info and Download</a>
+                    @if(Auth::user()->role == 'normal')
                     <strong><a style="color:#0b7ad6" href="{{route('favourites.show',[$ringtone->id,$ringtone->slug])}}">Add to favorites</a></strong>
+                    
+                    @endif
+                    @endif
+                    
                 </div>
             </div>
             
