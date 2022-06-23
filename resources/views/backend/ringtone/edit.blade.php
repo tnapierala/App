@@ -25,7 +25,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                       
+
                     </div>
                     <div class="form-group">
                         <label>Description</label>
@@ -49,11 +49,11 @@
                         <label>Choose category</label>
                         <select class="form-control  @error('category') is-invalid @enderror" name="category">
                             <option value="">Select category</option>
-                            @foreach(App\Category::all() as $category)
+                            @foreach(App\Models\Category::all() as $category)
                     <option value="{{$category->id}}"
                     @if($category->id==$ringtone->category_id)selected @endif >{{$category->name}}</option>
                             @endforeach
-                            
+
                         </select>
                            @error('category')
                                     <span class="invalid-feedback" role="alert">
@@ -62,7 +62,7 @@
                                 @enderror
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <button class="btn btn-success" type="submit">Submit</button>
                     </div>
 
                    </form>

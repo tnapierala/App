@@ -46,16 +46,6 @@ body {
   margin-top: 0;
   margin-bottom: 0;
 }
-
-/* The triangle form is achieved by a CSS hack */
-.login-triangle {
-  width: 0;
-  margin-right: auto;
-  margin-left: auto;
-  border: 12px solid transparent;
-  border-bottom-color: #28d;
-}
-
 .registerProposal {
   text-align: center;
   font-size: 14px;
@@ -66,6 +56,15 @@ body {
 .registerProposal a:hover {
   color: #555;
 }
+/* The triangle form is achieved by a CSS hack */
+.login-triangle {
+  width: 0;
+  margin-right: auto;
+  margin-left: auto;
+  border: 12px solid transparent;
+  border-bottom-color: #28d;
+}
+
 .login-header {
   background: #28d;
   padding: 20px;

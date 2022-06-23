@@ -23,7 +23,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                       
+
                     </div>
                     <div class="form-group">
                         <label>Description</label>
@@ -47,10 +47,10 @@
                         <label>Choose category</label>
                         <select class="form-control  @error('category') is-invalid @enderror" name="category">
                             <option value="">Select category</option>
-                            @foreach(App\Category::all() as $category)
+                            @foreach(App\Models\Category::all() as $category)
                                 <option value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
-                            
+
                         </select>
                            @error('category')
                                     <span class="invalid-feedback" role="alert">

@@ -11,13 +11,13 @@
                 <div class="card-header">All Photo
                     <span class="float-right">
                         <a href="{{route('photos.create')}}">
-                            <button class="btn btn-primary">Create Photo</button>
+                            <button class="btn btn-success">Create Photo</button>
                         </a>
                     </span>
                 </div>
 
                 <div class="card-body">
-                   
+
                     <table class="table table-striped">
                       <thead>
                         <tr>
@@ -28,8 +28,8 @@
 
                           <th scope="col">Format</th>
                           <th scope="col">Size</th>
-                        
-                       
+
+
                          <th scope="col">Edit</th>
                           <th scope="col">Delete</th>
 
@@ -41,13 +41,13 @@
                         <tr>
                           <th scope="row">{{$key+1}}</th>
                           <td>
-                            <img src="/uploads/{{$photo->file}}" width="100">
+                            <img src="/uploads/800x600/{{$photo->file}}" width="100">
                           </td>
                           <td>{{$photo->title}}</td>
                           <td>{{$photo->description}}</td>
 
-                          
-                          
+
+
                           <td>{{$photo->format}}</td>
                           <td>{{round($photo->size)*0.001,2}}kb</td>
                           <td>
@@ -55,7 +55,7 @@
                               <button class="btn btn-primary">Edit</button>
                             </a>
                           </td>
-                          
+
                           <td>
                               <form action="{{route('photos.destroy',[$photo->id])}}" method="post" onSubmit="return confirm('Do you want to delete?')">@csrf
                                 {{method_field('DELETE')}}
@@ -63,15 +63,15 @@
 
                               </form>
                           </td>
-                         
-                          
+
+
                         </tr>
                         @endforeach
                         @else
 
                         <td>No photod to display</td>
                         @endif
-                       
+
                       </tbody>
                     </table>
 

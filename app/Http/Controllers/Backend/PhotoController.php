@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Photo;
+use App\Models\Photo;
 use Image;
+
 class PhotoController extends Controller
 {
     /**
@@ -16,7 +17,7 @@ class PhotoController extends Controller
     public function index()
     {
         $photos = Photo::latest()->paginate(20);
-        return view('backend.photo.index',compact('photos')); 
+        return view('backend.photo.index', compact('photos'));
     }
 
     /**
@@ -38,37 +39,37 @@ class PhotoController extends Controller
     public function store(Request $request)
     {
 
-        $this->validate($request,[
-            'title'=>'required|min:3|max:120',
-            'description'=>'required|min:3|max:200',
-            'image'=>'required|mimes:jpeg,jpg,png'
+        $this->validate($request, [
+            'title' => 'required|min:3|max:120',
+            'description' => 'required|min:3|max:200',
+            'image' => 'required|mimes:jpeg,jpg,png'
 
         ]);
 
         $image = $request->file('image');
-        $filaname = $image->hashName();
+        $filename = $image->getClientOriginalName();  //hashName to hide the original filename
         $size = $request->image->getSize();
 
         $format = $request->image->getClientOriginalExtension();
 
-        $path = 'uploads/'.$filaname;
-        $path1 = 'uploads/1280x1024/'.$filaname;
-        $path2 = 'uploads/316x255/'.$filaname;
-        $path3 = 'uploads/118x95/'.$filaname;
+        $path =  'uploads/800x600/' . $filename;
+        $path1 = 'uploads/1280x1024/' . $filename;
+        $path2 = 'uploads/316x255/' . $filename;
+        $path3 = 'uploads/118x95/' . $filename;
 
-        Image::make($image->getRealPath())->resize(800,600)->save($path);
-        Image::make($image->getRealPath())->resize(1280,1024)->save($path1);
-        Image::make($image->getRealPath())->resize(316,255)->save($path2);
-        Image::make($image->getRealPath())->resize(118,95)->save($path3);
+        Image::make($image->getRealPath())->resize(800, 600)->save($path);
+        Image::make($image->getRealPath())->resize(1280, 1024)->save($path1);
+        Image::make($image->getRealPath())->resize(316, 255)->save($path2);
+        Image::make($image->getRealPath())->resize(118, 95)->save($path3);
 
         $photo = new Photo;
         $photo->title = $request->title;
         $photo->description = $request->description;
-        $photo->file = $filaname;
+        $photo->file = $filename;
         $photo->format = $format;
         $photo->size = $size;
         $photo->save();
-        return redirect()->back()->with('message','Wallpaper uploaded successfully');
+        return redirect()->back()->with('message', 'Wallpaper uploaded successfully');
     }
 
     /**
@@ -91,7 +92,7 @@ class PhotoController extends Controller
     public function edit($id)
     {
         $photo = Photo::find($id);
-        return view('backend.photo.edit',compact('photo'));
+        return view('backend.photo.edit', compact('photo'));
     }
 
     /**
@@ -104,65 +105,63 @@ class PhotoController extends Controller
     public function update(Request $request, $id)
     {
         //validation
-        $this->validate($request,[
-            'title'=>'required|min:3|max:100',
-            'description'=>'required|min:3|max:500',
-          
+        $this->validate($request, [
+            'title' => 'required|min:3|max:100',
+            'description' => 'required|min:3|max:500',
+
         ]);
         //details of the photo from db
         $photo = Photo::find($id);
         $fileName = $photo->file;
-       // dd($fileName);
+        // dd($fileName);
         $format = $photo->format;
-        $size = $photo->size; 
+        $size = $photo->size;
 
         //if user is uploaded new photo
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $newfilename = $image->hashName();
+            $newfilename = $image->getClientOriginalName();
             $size = $request->image->getSize();
 
             $format = $request->image->getClientOriginalExtension();
-        
 
-            $path = 'uploads/'.$newfilename;
-            $path1 = 'uploads/1280x1024/'.$newfilename;
-            $path2 = 'uploads/316x255/'.$newfilename;
-            $path3 = 'uploads/118x95/'.$newfilename;
+            $path =  'uploads/800x600/' . $newfilename;
+            $path1 = 'uploads/1280x1024/' . $newfilename;
+            $path2 = 'uploads/316x255/' . $newfilename;
+            $path3 = 'uploads/118x95/' . $newfilename;
             //upload and resize new updated image
-            Image::make($image->getRealPath())->resize(800,600)->save($path);
-            Image::make($image->getRealPath())->resize(1280,1024)->save($path1);
-            Image::make($image->getRealPath())->resize(316,255)->save($path2);
-            Image::make($image->getRealPath())->resize(118,95)->save($path3);
-            //delete the previous image 
-                unlink(public_path('uploads/'.$photo->file));
-                unlink(public_path('uploads/1280x1024/'.$photo->file));
-                unlink(public_path('uploads/316x255/'.$photo->file));
-                unlink(public_path('uploads/118x95/'.$photo->file));
-        $photo->title = $request->get('title');
-        $photo->description = $request->get('description');
-      
-        $photo->format = $format;
-        $photo->size = $size;
-        //save new file name in db
-        $photo->file = $newfilename;
-        
-        $photo->save();
-        return redirect()->back()->with('message',"Photo Updated successfully!");
-   
+            Image::make($image->getRealPath())->resize(800, 600)->save($path);
+            Image::make($image->getRealPath())->resize(1280, 1024)->save($path1);
+            Image::make($image->getRealPath())->resize(316, 255)->save($path2);
+            Image::make($image->getRealPath())->resize(118, 95)->save($path3);
+            //delete the previous image if is not empty
+            if ($photo->file = $request->get('file') != null) {
+                unlink(public_path('uploads/800x600/' . $photo->file));
+                unlink(public_path('uploads/1280x1024/' . $photo->file));
+                unlink(public_path('uploads/316x255/' . $photo->file));
+                unlink(public_path('uploads/118x95/' . $photo->file));
+            }
+            $photo->title = $request->get('title');
+            $photo->description = $request->get('description');
 
+            $photo->format = $format;
+            $photo->size = $size;
+            //save new file name in db
+            $photo->file = $newfilename;
 
-        }else{
+            $photo->save();
+            return redirect()->back()->with('message', "Photo Updated successfully!");
+        } else {
             //if user has not uploaded new photo just want to change title and description
-        $photo->title = $request->get('title');
-        $photo->description = $request->get('description');
-      
-        $photo->format = $format;
-        $photo->size = $size;
-        $photo->file = $fileName;
-        
-        $photo->save();
-        return redirect()->back()->with('message',"Photo Updated successfully!");
+            $photo->title = $request->get('title');
+            $photo->description = $request->get('description');
+
+            $photo->format = $format;
+            $photo->size = $size;
+            $photo->file = $fileName;
+
+            $photo->save();
+            return redirect()->back()->with('message', "Photo Updated successfully!");
         }
     }
 
@@ -176,11 +175,10 @@ class PhotoController extends Controller
     {
         $photo = Photo::find($id);
         $photo->delete();
-        unlink(public_path('/uploads/'.$photo->file));
-        unlink(public_path('/uploads/1280x1024/'.$photo->file));
-        unlink(public_path('/uploads/316x255/'.$photo->file));
-        unlink(public_path('/uploads/118x95/'.$photo->file));
-        return redirect()->back()->with('message',"Photo Deleted successfully!");
-    } 
-   
+        unlink(public_path('uploads/800x600/' . $photo->file));
+        unlink(public_path('/uploads/1280x1024/' . $photo->file));
+        unlink(public_path('/uploads/316x255/' . $photo->file));
+        unlink(public_path('/uploads/118x95/' . $photo->file));
+        return redirect()->back()->with('message', "Photo Deleted successfully!");
+    }
 }
